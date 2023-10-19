@@ -3,13 +3,14 @@ from datetime import date
 
 
 # Create your models here.
+from django.urls import reverse
 
 
 class Movie(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название')
     tagline = models.CharField(max_length=200, verbose_name='Тег', blank=True)
     premier = models.DateField(verbose_name='Премьера фильма', default=date.today)
-    poster = models.ImageField(verbose_name='Постер', upload_to='media/movies', blank=True)
+    poster = models.ImageField(verbose_name='Постер', upload_to='movies/movies', blank=True)
     description = models.TextField(verbose_name='Описание', blank=True)
     directors = models.ManyToManyField('Actor', verbose_name='Режиссёр', related_name='film_director')
     actors = models.ManyToManyField('Actor', verbose_name='Актёр', related_name='film_actor')
@@ -28,6 +29,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('movie_detail', kwargs={"slug": self.url})
 
     class Meta:
         verbose_name = 'Фильм'
@@ -65,7 +69,7 @@ class Category(models.Model):
 
 class Actor(models.Model):
     name = models.CharField(max_length=150, verbose_name='Имя')
-    image = models.ImageField(verbose_name='Фото', upload_to='media/actors', blank=True)
+    image = models.ImageField(verbose_name='Фото', upload_to='movies/actors', blank=True)
     description = models.TextField(verbose_name='Описание', blank=True)
     date_birth = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     date_death = models.DateField(verbose_name='Дата смерти', blank=True, null=True)
@@ -94,7 +98,7 @@ class Country(models.Model):
 
 
 class Movie_shot(models.Model):
-    image = models.ImageField(verbose_name='картинка', upload_to='media/movie_shot')
+    image = models.ImageField(verbose_name='картинка', upload_to='movies/movie_shot')
     tag = models.CharField(max_length=75, verbose_name='Загаловок', blank=True)
     movie = models.ForeignKey('Movie', verbose_name='Фильм', on_delete=models.CASCADE)
 
