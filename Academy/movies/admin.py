@@ -40,6 +40,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_filter = ['type_movie', 'premier', 'is_published']
     search_fields = ['id', 'title', 'country__title']
     inlines = [MovieShotsInline]
+    actions = ["published", "unpublished"]
     form = MovieAdminForm
     readonly_fields = ('get_poster',)
     save_as = True
@@ -48,7 +49,30 @@ class MovieAdmin(admin.ModelAdmin):
     def get_poster(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="150" height="160"')
 
+    def published(self, request, queryset):
+        row_publish = queryset.update(is_published=True)
+        if row_publish == 1:
+            message_bit = 'Опубликована 1 запись'
+        else:
+            message_bit = f'Опубликовано {row_publish} записей'
+        self.message_user(request, message=message_bit)
+
+
+    def unpublished(self, request, queryset):
+        row_publish = queryset.update(is_published=False)
+        if row_publish == 1:
+            message_bit = 'Снята с публикации 1 запись'
+        else:
+            message_bit = f'Снято с публикации {row_publish} записей'
+        self.message_user(request, message=message_bit)
+
     get_poster.short_description = 'Постер'
+
+    published.short_description = 'Опубликовать'
+    published.allowed_permission = ('change',)
+
+    unpublished.short_description = 'Снять с публикации'
+    unpublished.allowed_permission = ('change',)
 
 
 @admin.register(Actor)

@@ -1,0 +1,87 @@
+{% extends 'movies/base.html' %}
+{% block movie %}
+<!-- product right -->
+<div class="left-ads-display col-lg-8">
+    <div class="row">
+        <div class="desc1-left col-md-6">
+            <img src="{{ actor.image.url }}" class="img-fluid" alt="">
+        </div>
+        <div class="desc1-right col-md-6 pl-lg-4">
+            <h3 class="editContent">
+                {{ actor.name }}</h3>
+
+            <ul>
+                <li><span><b>Страна:</b> {{ actor.country }}</span></li>
+                <li><span><b>Дата рождения:</b> {{ actor.date_birth }}</span></li>
+                <li><span><b>Дата смерти:</b> {{ actor.date_death }}</span></li>
+
+                <li> <span><b>Режиссер:</b>
+                                        {% for movie in actor.film_director.all %}
+                                        <a href="{{ movie.get_absolute_url }}">{{ movie }}</a>;
+                                        {% endfor %}
+                                    </span></li>
+                <li><span><b>Актер:</b>
+                                    {% for movie in actor.film_actor.all %}
+                    <a href="{{ movie.get_absolute_url }}">{{ movie }}</a>;
+                                    {% endfor %}
+                                </span></li>
+
+                <li style="list-style: none">
+                    <a href="#"><b>Рейтинг:</b>
+                        <span class="fa fa-star" aria-hidden="true"
+                              style="outline: none; cursor: inherit;"></span>
+                        <span class="fa fa-star" aria-hidden="true"
+                              style="outline: none; cursor: inherit;"></span>
+                        <span class="fa fa-star" aria-hidden="true"
+                              style="outline: none; cursor: inherit;"></span>
+                        <span class="fa fa-star" aria-hidden="true"
+                              style="outline: none; cursor: inherit;"></span>
+                        <span class="fa fa-star" aria-hidden="true"
+                              style="outline: none; cursor: inherit;"></span>
+                        <span class="editContent"
+                              style="outline: none; cursor: inherit;">5.0</span>
+                    </a>
+                </li>
+                <div class="share-desc">
+                    <div class="share">
+                        <h4 class="editContent"
+                            style="outline: none; cursor: inherit;">
+                            Share:</h4>
+                        <ul class="w3layouts_social_list list-unstyled">
+                            <li>
+                                <a href="#" class="w3pvt_facebook editContent"
+                                   style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-facebook-f"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="w3pvt_twitter editContent"
+                                   style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-twitter"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="w3pvt_dribble editContent"
+                                   style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-dribbble"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="row sub-para-w3layouts mt-5">
+
+        <h3 class="shop-sing editContent"> {{ actor.name }}:</h3>
+        <p class="editContent">{{ actor.description|safe }}</p>
+    </div>
+    <hr>
+</div>
+<!-- //contact -->
+{% endblock %}

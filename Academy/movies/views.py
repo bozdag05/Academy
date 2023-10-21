@@ -2,18 +2,27 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
-from .models import Movie, Type_movie
+from .models import Movie, Type_movie, Actor, Country, Category
 from .forms import ReviewForm
+
 
 # Create your views here.
 
-class MoviesView(ListView):
+class GenreCategoryCountry:
+    def get_category(self):
+        return Category.objects.all()
+
+    def get_country(self):
+        return Country.objects.all()
+
+
+class MoviesView(GenreCategoryCountry, ListView):
     model = Movie
 
-    def get_context_data(self,  **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['movies'] = Movie.objects.filter(is_published=True)
-        context['types'] = Type_movie.objects.all()
+
         return context
 
     template_name = 'movies/movies.html'
@@ -36,3 +45,11 @@ class AddReview(View):
             form.movie = movie
             form.save()
         return redirect(movie.get_absolute_url())
+
+
+class ActorDetailView(DetailView):
+    model = Actor
+    template_name = 'movies/actordetail.html'
+    slug_field = 'name'
+
+
