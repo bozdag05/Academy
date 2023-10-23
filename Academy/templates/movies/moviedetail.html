@@ -37,6 +37,13 @@
                                     {% endfor %}
                                 </span>
                 </li>
+
+                <li><span><b>Категории:</b>
+                                    {% for category in movie.category.all %}
+                                    {{ category }};
+                                    {% endfor %}
+                                </span>
+                </li>
                 <li style="list-style: none"><span><b>Премьера в мире:</b> {{ movie.premier }}</span>
                 </li>
                 <li style="list-style: none">

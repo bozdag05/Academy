@@ -1,29 +1,33 @@
 {% load movie_tag %}
 <!--preference -->
-<div class="left-side my-4">
-    <h3 class="sear-head editContent">Жанры</h3>
-    <ul class="w3layouts-box-list">
-        {% for category, genre in view.get_category.category.all %}
-        <li class="editContent">
-            <input type="checkbox" class="checked">
-            <span class="span editContent">{{ category }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-<!-- // preference -->
-<!-- discounts -->
-<div class="left-side">
-    <h3 class="sear-head editContent">Страна</h3>
-    <ul class="w3layouts-box-list">
-        {% for country in view.get_country %}
-        <li class="editContent">
-            <input type="checkbox" class="checked">
-            <span class="span editContent">{{ country.title }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+<form action="{% url 'filter' %}" method="get">
+    <div class="left-side my-4">
+        <h3 class="sear-head editContent">Жанры</h3>
+        <ul class="w3layouts-box-list">
+            {% for category in view.get_category %}
+            <li class="editContent">
+                <input type="checkbox" class="checked" name="category" value="{{ category.id }}">
+                <span class="span editContent">{{ category }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- // preference -->
+    <!-- discounts -->
+
+    <div class="left-side">
+        <h3 class="sear-head editContent">Страна</h3>
+        <ul class="w3layouts-box-list">
+            {% for country in view.get_country %}
+            <li class="editContent">
+                <input type="checkbox" class="checked" name="country" value="{{ country.id }}">
+                <span class="span editContent">{{ country.title }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <button class="btn1 btn" type="submit">Search <span class="fa fa-search" aria-hidden="true"></span></button>
+</form>
 <!-- //discounts -->
 <!-- reviews -->
 <div class="customer-rev left-side my-4">
@@ -83,5 +87,9 @@
 </div>
 <!-- //reviews -->
 <!-- deals -->
-{% get_last_movies %}
+{% comment %}
+<div class="left-side my-4">
+    {% get_last_movies %}
+</div>
+{% endcomment %}
 <!-- //deals -->
